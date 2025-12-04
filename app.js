@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import 'dotenv/config';
 import signUpRouter from './routes/signupRoute.js';
+import loginRouter from './routes/loginRoute.js';
+import passport from 'passport';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -30,9 +32,11 @@ app.use(session({
         dbRecordIdIsSessionId: true,
     })
 }));
+app.use(passport.session())
 
 //Routes
 app.use('/',signUpRouter)
+app.use('/login', loginRouter)
 
 app.listen(PORT, (err) => {
     if (err) {

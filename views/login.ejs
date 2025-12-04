@@ -12,15 +12,15 @@
     </div>
     <form action="/login" method="post">
       <label for="username">Username:</label>
-      <input type="text" name="username">
+      <input type="text" name="username" required>
 
       <label for="password">Password:</label>
-      <input type="password" name="password">
+      <input type="password" name="password" required>
 
       <button type="submit">LOG IN</button>
     </form>
      <div><%- include('partials/errors') %></div>
-    <p>Don't have an account? <a href="signup">Sign Up</a></p>
+    <p>Don't have an account? <a href="/">Sign Up</a></p>
    
 </body>
 </html>
