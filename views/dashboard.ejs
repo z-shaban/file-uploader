@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <p>File uploader</p>
+        <p><a href="/logout">Log out</a></p>
+    </header>
+    <main>
+        <button onclick="document.getElementById('new-folder').showModal()">New Folder</button>
+        <button onclick="document.getElementById('upload-file').showModal()">Upload File</button>
+        <dialog id="upload-file">
+            <p>Upload a File</p>
+           <form action="/dashboard" method="post" enctype="multipart/form-data">
+             <label for="upload-file">Choose a file</label>
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+            <button onclick="document.getElementById('upload-file').close()">Cancel</button>
+           </form>
+        </dialog>
+
+         <dialog id="new-folder">
+            <p>Create a Folder</p>
+           <form action="/dashboard" method="post">
+             <label for="new-folder">Choose a file</label>
+            <input type="text" name="folder" required>
+            <button type="submit">Create</button>
+            <button onclick="document.getElementById('new-folder').close()">Cancel</button>
+           </form>
+        </dialog>
+    </main>
+</body>
+</html>

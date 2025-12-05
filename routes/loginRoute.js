@@ -10,7 +10,7 @@ loginRouter.get('/', (req,res)=>{
      res.render('login')
 })
 loginRouter.post('/', passport.authenticate("local",{
-    successRedirect: '/',
+    successRedirect: '/dashboard',
     failureRedirect: '/login'
 }
 ))

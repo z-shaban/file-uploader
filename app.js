@@ -9,6 +9,7 @@ import 'dotenv/config';
 import signUpRouter from './routes/signupRoute.js';
 import loginRouter from './routes/loginRoute.js';
 import passport from 'passport';
+import { dashboardRouter } from './routes/dashboardRoute.js';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -37,6 +38,7 @@ app.use(passport.session())
 //Routes
 app.use('/',signUpRouter)
 app.use('/login', loginRouter)
+app.use('/dashboard', dashboardRouter)
 
 app.listen(PORT, (err) => {
     if (err) {
