@@ -49,5 +49,30 @@ async function deleteFolder(req,res) {
    res.redirect('/dashboard')
 }
 
+async function openFolder(req,res){
+  const files = await prisma.file.findMany({
+    where: {folderId: +req.params.id}
+  })
+  if (files){
+     res.render('folder', {files})
+  } else{
+    res.render('folder')
+  }
+ 
+}
 
-export {createFolder, dashboard, updateFolder,deleteFolder}
+async function uploadFile(req,res){
+    const kb = (req.file.size / 1024).toFixed(2);
+    await prisma.file.create({
+        data:{
+            filename:req.file.originalname,
+            size: kb + 'KB',
+            url: req.file.path,
+            folderId : +req.body.folderId
+        }
+    })
+    res.redirect('/dashboard')
+}
+
+
+export {createFolder, dashboard, updateFolder,deleteFolder, openFolder, uploadFile}

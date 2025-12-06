@@ -25,6 +25,17 @@ model Folder {
   foldername String @unique
   creator    User   @relation(fields: [creatorId], references: [id])
   creatorId  Int
+  files      File[]
+}
+
+model File {
+  id         Int      @id @default(autoincrement())
+  filename   String
+  size       String
+  uploadedAt DateTime @default(now())
+  url        String
+  folder     Folder   @relation(fields: [folderId], references: [id])
+  folderId   Int
 }
 
 model Session {

@@ -14,9 +14,18 @@
         <%- include ('partials/errors') %>
         <button onclick="document.getElementById('new-folder').showModal()">New Folder</button>
         <button onclick="document.getElementById('upload-file').showModal()">Upload File</button>
+        <!-- Upload file -->
         <dialog id="upload-file">
             <p>Upload a File</p>
            <form action="/dashboard/upload-file" method="post" enctype="multipart/form-data">
+             <label for="foldername">Choose a folder</label>
+            <select name="folderId" id="folderId" required>
+                 <option value="" disabled selected>--Select a folder--</option>
+                 
+             <% folders.forEach(folder=>{%>
+                <option value="<%= folder.id %>"><%= folder.foldername %></option>
+       <%  }) %>
+            </select>
              <label for="upload-file">Choose a file</label>
             <input type="file" name="file" required>
             <button type="submit">Upload</button>
@@ -24,6 +33,7 @@
            </form>
         </dialog>
 
+        <!-- Create Folder -->
          <dialog id="new-folder">
             <p>Create a Folder</p>
            <form action="/dashboard/folder" method="post">
@@ -34,14 +44,17 @@
            </form>
         </dialog>
         
-       
+             <!--Display Folders -->
              <% folders.forEach(folder=>{%>
                 <div>
+                    <a href="/dashboard/folder/<%= folder.id %>">
                     <p><%= folder.foldername %></p>
+                    </a>  
                     <button onclick="document.getElementById('update-folder-<%= folder.id %>').showModal()">Update</button>
                     <button onclick="window.location.href='/dashboard/delete-folder/<%= folder.id %>'">Delete</button>
+                 
                 </div>
-
+             <!--Update folder -->
             <dialog id="update-folder-<%= folder.id %>">
             <p>Update Folder</p>
             <form action="/dashboard/update-folder/<%= folder.id %>" method="post">
