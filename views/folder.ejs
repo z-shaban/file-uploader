@@ -7,7 +7,19 @@
 </head>
 <body>
     <p>Files will be displayed here</p>
- 
+   
+<% files.forEach(file => { %>
+  <div>
+    <p>Name: <%= file.filename %></p>
+    <p>Size: <%= file.size %></p>
+    <p>Uploaded At: <%= file.uploadedAt %></p>
+    <button onclick="window.location.href='/dashboard/folder/download-file/<%= file.id %>'">Download</button>
+    <button onclick="window.location.href='/dashboard/folder/delete-file/<%= file.id %>'">Delete</button>
+
+   
+  </div>
+<% }) %>
+
 
 </body>
 </html>

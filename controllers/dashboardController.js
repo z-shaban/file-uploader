@@ -50,11 +50,12 @@ async function deleteFolder(req,res) {
 }
 
 async function openFolder(req,res){
+  const folderId = +req.params.id
   const files = await prisma.file.findMany({
-    where: {folderId: +req.params.id}
+    where: {folderId: folderId}
   })
   if (files){
-     res.render('folder', {files})
+     res.render('folder', {files, folderId})
   } else{
     res.render('folder')
   }
@@ -74,5 +75,28 @@ async function uploadFile(req,res){
     res.redirect('/dashboard')
 }
 
+async function downloadFile(req,res){
+    const file = await prisma.file.findUnique({
+        where:{
+            id : +req.params.id
+        }
+    })
+    res.download(file.url)
+}
 
-export {createFolder, dashboard, updateFolder,deleteFolder, openFolder, uploadFile}
+async function deleteFile(req,res){
+     const file = await prisma.file.findUnique({
+        where:{
+            id : +req.params.id
+        }
+    })
+    await prisma.file.delete({
+        where:{
+            id : +req.params.id
+        }
+    })
+   res.redirect(`/dashboard/folder/${file.folderId}`)
+}
+
+
+export {createFolder, dashboard, updateFolder,deleteFolder, openFolder, uploadFile, downloadFile,deleteFile}
