@@ -1,4 +1,6 @@
 import {prisma} from '../lib/prisma'
+import { v2 as cloudinary } from 'cloudinary'
+import { promises as fs } from 'fs';
 
 async function dashboard(req,res) {
     
@@ -63,15 +65,36 @@ async function openFolder(req,res){
 }
 
 async function uploadFile(req,res){
-    const kb = (req.file.size / 1024).toFixed(2);
+
+   const options  = {
+    folder: 'file-uploader',
+      resource_type: 'auto', 
+      use_filename: true,
+      unique_filename: true
+    
+   }
+
+   try{
+     const result = await cloudinary.uploader.upload(req.file.path,options)
+     console.log(result)
+
+      const kb = (req.file.size / 1024).toFixed(2);
     await prisma.file.create({
         data:{
             filename:req.file.originalname,
             size: kb + 'KB',
-            url: req.file.path,
+            url: result.secure_url,
+            cloudinaryId: result.public_id,
             folderId : +req.body.folderId
         }
     })
+     await fs.unlink(req.file.path);
+   }catch(error){
+      console.error(error)
+   }
+
+
+   
     res.redirect('/dashboard')
 }
 
@@ -90,6 +113,11 @@ async function deleteFile(req,res){
             id : +req.params.id
         }
     })
+
+    await cloudinary.uploader.destroy(file.cloudinaryId, {
+      resource_type: 'raw' 
+    });
+
     await prisma.file.delete({
         where:{
             id : +req.params.id

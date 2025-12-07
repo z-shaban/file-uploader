@@ -29,13 +29,14 @@ model Folder {
 }
 
 model File {
-  id         Int      @id @default(autoincrement())
-  filename   String
-  size       String
-  uploadedAt DateTime @default(now())
-  url        String
-  folder     Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  folderId   Int
+  id           Int      @id @default(autoincrement())
+  filename     String
+  size         String
+  uploadedAt   DateTime @default(now())
+  url          String
+  cloudinaryId String
+  folder       Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId     Int
 }
 
 model Session {
